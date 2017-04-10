@@ -8,23 +8,37 @@
                                     app:cardElevation="0dp"
                                     tools:layout_width="100dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/coverImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                app:srcCompat="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:id="@+id/titleTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="功能"/>
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/coverImg"
-            android:layout_width="match_parent"
+            android:id="@+id/editHintImg"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            app:srcCompat="@mipmap/ic_launcher"/>
-
-        <TextView
-            android:id="@+id/titleTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="功能"/>
-    </LinearLayout>
+            android:layout_gravity="end|top"
+            android:visibility="gone"
+            app:srcCompat="@android:drawable/ic_input_add"
+            tools:visibility="visible"/>
+    </FrameLayout>
 </android.support.v7.widget.CardView>

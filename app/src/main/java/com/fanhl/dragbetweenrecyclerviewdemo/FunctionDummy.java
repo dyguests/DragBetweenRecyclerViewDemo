@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.widget.Toast;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.data.FunctionItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * Created by fanhl on 2017/4/7.
  */
 
-class FunctionDummy {
+public class FunctionDummy {
     private static FunctionItem item(final String title, @DrawableRes int iconResId) {
         return new FunctionItem(title, iconResId, new FunctionItem.Action() {
             @Override

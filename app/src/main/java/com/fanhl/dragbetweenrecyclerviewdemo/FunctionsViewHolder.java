@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.data.FunctionItem;
+
 import java.util.List;
 
 /**
@@ -37,5 +39,9 @@ class FunctionsViewHolder {
     public void bindData(@NonNull String title, @NonNull List<FunctionItem> functionItems) {
         titleTv.setText(title);
         functionAdapter.replaceItems(functionItems);
+    }
+
+    public void setEditMode(boolean editMode) {
+        functionAdapter.setEditMode(editMode);
     }
 }

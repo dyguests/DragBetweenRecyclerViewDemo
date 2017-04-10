@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.data.FunctionItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import java.util.List;
 
 class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHolder> implements Listable<FunctionItem> {
     private final List<FunctionItem> list;
+    /** 默认是非编辑模式 */
+    private boolean editMode = false;
 
     public FunctionAdapter() {
         this.list = new ArrayList<>();
@@ -86,10 +90,19 @@ class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHolder> i
         throw new RuntimeException("没空实现 先不写");
     }
 
+    public void setEditMode(boolean editMode) {
+        if (this.editMode == editMode) {
+            return;
+        }
+        this.editMode = editMode;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView coverImg;
         private final TextView titleTv;
+        private final ImageView editHintImg;
 
         private FunctionItem data;
 
@@ -97,6 +110,7 @@ class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHolder> i
             super(itemView);
             coverImg = ((ImageView) itemView.findViewById(R.id.coverImg));
             titleTv = ((TextView) itemView.findViewById(R.id.titleTv));
+            editHintImg = ((ImageView) itemView.findViewById(R.id.editHintImg));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,6 +127,7 @@ class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHolder> i
 
             coverImg.setImageResource(data.getIconResId());
             titleTv.setText(data.getName());
+            editHintImg.setVisibility(editMode ? View.VISIBLE : View.GONE);
         }
     }
 }

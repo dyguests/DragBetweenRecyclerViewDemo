@@ -1,43 +1,85 @@
 package com.fanhl.dragbetweenrecyclerviewdemo;
 
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
+import com.fanhl.dragbetweenrecyclerviewdemo.presenter.MainPresenter;
 
-    private FunctionsViewHolder myServiceContainer;
-    private FunctionsViewHolder serviceContainer;
-    private FunctionsViewHolder securityContainer;
-    private FunctionsViewHolder toolsContainer;
+public class MainActivity extends AppCompatActivity implements MainContract.View {
+
+    private MenuItem editMenu;
+
+    private FunctionsViewHolder myServiceViewHolder;
+    private FunctionsViewHolder serviceViewHolder;
+    private FunctionsViewHolder securityViewHolder;
+    private FunctionsViewHolder toolsViewHolder;
+
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        assginViews();
+        assignViews();
         initData();
     }
 
-    private void assginViews() {
-        this.myServiceContainer = new FunctionsViewHolder(findViewById(R.id.myServiceContainer));
-        this.serviceContainer = new FunctionsViewHolder(findViewById(R.id.serviceContainer));
-        this.securityContainer = new FunctionsViewHolder(findViewById(R.id.securityContainer));
-        this.toolsContainer = new FunctionsViewHolder(findViewById(R.id.toolsContainer));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        editMenu = menu.findItem(R.id.action_edit);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_edit:
+                presenter.changeEditMode();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void assignViews() {
+        this.myServiceViewHolder = new FunctionsViewHolder(findViewById(R.id.myServiceContainer));
+        this.serviceViewHolder = new FunctionsViewHolder(findViewById(R.id.serviceContainer));
+        this.securityViewHolder = new FunctionsViewHolder(findViewById(R.id.securityContainer));
+        this.toolsViewHolder = new FunctionsViewHolder(findViewById(R.id.toolsContainer));
     }
 
     private void initData() {
-        bindDataToContainer();
+        MainModel model = new MainModel();
+        presenter = new MainPresenter(model, this);
+        presenter.start();
     }
 
-    private void bindDataToContainer() {
-        bindDataToFunctionViewHolder("我的", R.drawable.ic_function_1, myServiceContainer);
-        bindDataToFunctionViewHolder("服务", R.drawable.ic_function_2, serviceContainer);
-        bindDataToFunctionViewHolder("安全", R.drawable.ic_function_3, securityContainer);
-        bindDataToFunctionViewHolder("工具", R.drawable.ic_function_4, toolsContainer);
+    @Override
+    public void bindData(MainModel model) {
+        bindFunctionDataToFunctionViewHolder(model.getMyFunctionBar(), myServiceViewHolder);
+        bindFunctionDataToFunctionViewHolder(model.getMyFunctionBar(), serviceViewHolder);
+        bindFunctionDataToFunctionViewHolder(model.getMyFunctionBar(), securityViewHolder);
+        bindFunctionDataToFunctionViewHolder(model.getMyFunctionBar(), toolsViewHolder);
     }
 
-    private void bindDataToFunctionViewHolder(String title, @DrawableRes int iconResId, FunctionsViewHolder functionsViewHolder) {
-        functionsViewHolder.bindData(title, FunctionDummy.list(title, iconResId));
+    @Override
+    public void setEditMode(boolean editMode) {
+        editMenu.setTitle(editMode ? "完成" : "编辑");
+        myServiceViewHolder.setEditMode(editMode);
+        serviceViewHolder.setEditMode(editMode);
+        securityViewHolder.setEditMode(editMode);
+        toolsViewHolder.setEditMode(editMode);
     }
+
+    private void bindFunctionDataToFunctionViewHolder(MainModel.FunctionBarData functionBarData, FunctionsViewHolder functionsViewHolder) {
+        functionsViewHolder.bindData(functionBarData.getTitle(), functionBarData.getList());
+    }
+
 }

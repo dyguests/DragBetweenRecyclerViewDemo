@@ -1,4 +1,4 @@
-package com.fanhl.dragbetweenrecyclerviewdemo;
+package com.fanhl.dragbetweenrecyclerviewdemo.data;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
@@ -6,7 +6,7 @@ import android.support.annotation.DrawableRes;
 /**
  * Created by fanhl on 2017/4/7.
  */
-class FunctionItem {
+public class FunctionItem {
     private String name;
     @DrawableRes
     private int iconResId;
