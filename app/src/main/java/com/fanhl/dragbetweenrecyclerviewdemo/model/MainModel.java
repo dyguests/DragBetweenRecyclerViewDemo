@@ -113,7 +113,7 @@ public class MainModel {
 
     }
 
-    public class FunctionItemWrap {
+    public static class FunctionItemWrap {
         /** 来源(服务、安全、工具) */
         private FunctionBarType functionBarType;
         private FunctionItem functionItem;
