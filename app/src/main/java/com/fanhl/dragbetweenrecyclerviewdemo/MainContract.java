@@ -1,6 +1,7 @@
 package com.fanhl.dragbetweenrecyclerviewdemo;
 
 import com.fanhl.dragbetweenrecyclerviewdemo.common.BaseContract;
+import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 
 /**
@@ -13,10 +14,19 @@ public interface MainContract {
         void bindData(MainModel model);
 
         void setEditMode(boolean editMode);
+
+        void addFunctionItemToMy(MainModel.FunctionBarType functionBarType, int position);
     }
 
-    interface Presenter extends BaseContract.Presenter{
+    interface Presenter extends BaseContract.Presenter {
+        boolean isEditMode();
+
         void changeEditMode();
+
+        void clickFunctionItem(MainModel.FunctionBarType functionBarType, int position, ClickableAdapter.ViewHolder holder);
+
+        @Deprecated
+        void onOtherItemClick();
 
         void onMyItemLongClick();
 

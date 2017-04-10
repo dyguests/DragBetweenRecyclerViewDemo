@@ -1,4 +1,4 @@
-package com.fanhl.dragbetweenrecyclerviewdemo;
+package com.fanhl.dragbetweenrecyclerviewdemo.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,9 +6,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.R;
 import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.common.Listable;
-import com.fanhl.dragbetweenrecyclerviewdemo.data.FunctionItem;
+import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,8 @@ import java.util.List;
  * Created by fanhl on 2017/4/7.
  */
 
-class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> implements Listable<FunctionItem> {
-    private final List<FunctionItem> list;
+public abstract class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> implements Listable<MainModel.FunctionBarData.FunctionItemWrap> {
+    protected final List<MainModel.FunctionBarData.FunctionItemWrap> list;
     /** 默认是非编辑模式 */
     private boolean editMode = false;
 
@@ -44,14 +45,14 @@ class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> imple
     }
 
     @Override
-    public void addItem(FunctionItem item) {
+    public void addItem(MainModel.FunctionBarData.FunctionItemWrap item) {
         int position = list.size();
         list.add(item);
         notifyItemInserted(position);
     }
 
     @Override
-    public void addItems(List<FunctionItem> items) {
+    public void addItems(List<MainModel.FunctionBarData.FunctionItemWrap> items) {
         int positionStart = list.size();
         list.addAll(items);
         notifyItemRangeInserted(positionStart, items.size());
@@ -65,7 +66,7 @@ class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> imple
     }
 
     @Override
-    public void replaceItems(List<FunctionItem> items) {
+    public void replaceItems(List<MainModel.FunctionBarData.FunctionItemWrap> items) {
         int oldSize = list.size();
         list.clear();
         list.addAll(items);
@@ -83,12 +84,12 @@ class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> imple
     }
 
     @Override
-    public void addFirstItem(FunctionItem item) {
+    public void addFirstItem(MainModel.FunctionBarData.FunctionItemWrap item) {
         throw new RuntimeException("没空实现 先不写");
     }
 
     @Override
-    public void addFirstItems(List<FunctionItem> items) {
+    public void addFirstItems(List<MainModel.FunctionBarData.FunctionItemWrap> items) {
         throw new RuntimeException("没空实现 先不写");
     }
 
@@ -106,7 +107,7 @@ class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> imple
         private final TextView titleTv;
         private final ImageView editHintImg;
 
-        private FunctionItem data;
+        private MainModel.FunctionBarData.FunctionItemWrap data;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -124,12 +125,20 @@ class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> imple
             });
         }
 
-        public void bindData(final FunctionItem data) {
+        public void bindData(final MainModel.FunctionBarData.FunctionItemWrap data) {
             this.data = data;
 
             coverImg.setImageResource(data.getIconResId());
             titleTv.setText(data.getName());
+
             editHintImg.setVisibility(editMode ? View.VISIBLE : View.GONE);
+            if (editMode) {
+                if (data.isAdded()) {
+                    editHintImg.setImageResource(android.R.drawable.star_big_off);
+                } else {
+                    editHintImg.setImageResource(android.R.drawable.ic_input_add);
+                }
+            }
         }
     }
 }

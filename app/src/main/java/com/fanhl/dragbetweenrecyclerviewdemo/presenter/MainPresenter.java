@@ -1,6 +1,7 @@
 package com.fanhl.dragbetweenrecyclerviewdemo.presenter;
 
 import com.fanhl.dragbetweenrecyclerviewdemo.MainContract;
+import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 
 /**
@@ -23,14 +24,48 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public boolean isEditMode() {
+        return model.isEditMode();
+    }
+
+    @Override
     public void changeEditMode() {
-        boolean newEditMode = !model.isEditMode();
+        boolean newEditMode = !isEditMode();
         setEditMode(newEditMode);
+    }
+
+    /**
+     * 当某个functionBar中某一项被点击时的处理
+     *
+     * @param functionBarType
+     * @param position
+     * @param holder
+     */
+    @Override
+    public void clickFunctionItem(MainModel.FunctionBarType functionBarType, int position, @Deprecated/*??*/ ClickableAdapter.ViewHolder holder) {
+        if (!isEditMode()) {
+            return;
+        }
+
+        MainModel.FunctionBarData.FunctionItemWrap functionBarItem = model.getFunctionBarItem(functionBarType, position);
+
+        if (functionBarType != MainModel.FunctionBarType.My) {
+            if (!functionBarItem.isAdded()) {
+                view.addFunctionItemToMy(functionBarType,position);
+            }
+        }
     }
 
     public void setEditMode(boolean editMode) {
         model.setEditMode(editMode);
         view.setEditMode(editMode);
+    }
+
+    @Override
+    public void onOtherItemClick() {
+        if (isEditMode()) {
+            // FIXME: 2017/4/10
+        }
     }
 
     @Override

@@ -5,18 +5,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.adapter.MyFunctionsViewHolder;
 import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 import com.fanhl.dragbetweenrecyclerviewdemo.presenter.MainPresenter;
+import com.fanhl.dragbetweenrecyclerviewdemo.viewHolder.FunctionsViewHolder;
+import com.fanhl.dragbetweenrecyclerviewdemo.viewHolder.OtherFunctionsViewHolder;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     private MenuItem editMenu;
 
-    private FunctionsViewHolder myServiceViewHolder;
-    private FunctionsViewHolder serviceViewHolder;
-    private FunctionsViewHolder securityViewHolder;
-    private FunctionsViewHolder toolsViewHolder;
+    private MyFunctionsViewHolder myServiceViewHolder;
+    private OtherFunctionsViewHolder serviceViewHolder;
+    private OtherFunctionsViewHolder securityViewHolder;
+    private OtherFunctionsViewHolder toolsViewHolder;
 
     private MainPresenter presenter;
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void assignViews() {
-        this.myServiceViewHolder = new FunctionsViewHolder(findViewById(R.id.myServiceContainer), new FunctionsViewHolder.Callback() {
+        this.myServiceViewHolder = new MyFunctionsViewHolder(findViewById(R.id.myServiceContainer), new FunctionsViewHolder.Callback() {
             @Override
             public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
 
@@ -61,9 +64,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 presenter.onMyItemLongClick();
             }
         });
-        this.serviceViewHolder = new FunctionsViewHolder(findViewById(R.id.serviceContainer), new FunctionsViewHolder.Callback() {
+        this.serviceViewHolder = new OtherFunctionsViewHolder(findViewById(R.id.serviceContainer), new FunctionsViewHolder.Callback() {
             @Override
             public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
+                presenter.clickFunctionItem(MainModel.FunctionBarType.Service, position, holder);
             }
 
             @Override
@@ -71,9 +75,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 presenter.onOtherItemLongClick();
             }
         });
-        this.securityViewHolder = new FunctionsViewHolder(findViewById(R.id.securityContainer), new FunctionsViewHolder.Callback() {
+        this.securityViewHolder = new OtherFunctionsViewHolder(findViewById(R.id.securityContainer), new FunctionsViewHolder.Callback() {
             @Override
             public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
+                presenter.clickFunctionItem(MainModel.FunctionBarType.Security, position, holder);
             }
 
             @Override
@@ -81,9 +86,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 presenter.onOtherItemLongClick();
             }
         });
-        this.toolsViewHolder = new FunctionsViewHolder(findViewById(R.id.toolsContainer), new FunctionsViewHolder.Callback() {
+        this.toolsViewHolder = new OtherFunctionsViewHolder(findViewById(R.id.toolsContainer), new FunctionsViewHolder.Callback() {
             @Override
             public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
+                presenter.clickFunctionItem(MainModel.FunctionBarType.Tools, position, holder);
             }
 
             @Override
@@ -118,6 +124,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         //// FIXME: 2017/4/10 editMode=false then save
 
+    }
+
+    @Override
+    public void addFunctionItemToMy(MainModel.FunctionBarType functionBarType, int position) {
+        switch (functionBarType) {
+            case Service:
+                serviceViewHolder.setFunctionItemStatusAdded(position);
+        }
     }
 
     private void bindFunctionDataToFunctionViewHolder(MainModel.FunctionBarData functionBarData, FunctionsViewHolder functionsViewHolder) {

@@ -3,10 +3,12 @@ package com.fanhl.dragbetweenrecyclerviewdemo.model;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
-import com.fanhl.dragbetweenrecyclerviewdemo.dummy.FunctionDummy;
 import com.fanhl.dragbetweenrecyclerviewdemo.R;
 import com.fanhl.dragbetweenrecyclerviewdemo.data.FunctionItem;
+import com.fanhl.dragbetweenrecyclerviewdemo.dummy.FunctionDummy;
+import com.fanhl.dragbetweenrecyclerviewdemo.util.CollectionUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,18 +62,37 @@ public class MainModel {
         this.editMode = editMode;
     }
 
+    public FunctionBarData.FunctionItemWrap getFunctionBarItem(FunctionBarType functionBarType, int position) {
+        switch (functionBarType) {
+            case My:
+                return myFunctionBar.getList().get(position);
+            case Service:
+                return serviceFunctionBar.getList().get(position);
+            case Security:
+                return securityFunctionBar.getList().get(position);
+            case Tools:
+                return toolsFunctionBar.getList().get(position);
+        }
+        return null;
+    }
+
 
     public class FunctionBarData {
         private String title;
-        private List<FunctionItem> list;
+        private List<FunctionItemWrap> list;
 
         public FunctionBarData() {
-
+            list = new ArrayList<>();
         }
 
-        public FunctionBarData(String title, List<FunctionItem> list) {
+        public FunctionBarData(String title, @NonNull List<FunctionItem> list) {
             this.title = title;
-            this.list = list;
+            this.list = CollectionUtil.parseList(list, new CollectionUtil.ParseListParser<FunctionItem, FunctionItemWrap>() {
+                @Override
+                public FunctionItemWrap parse(FunctionItem functionItem) {
+                    return new FunctionItemWrap(functionItem);
+                }
+            });
         }
 
         public String getTitle() {
@@ -82,12 +103,59 @@ public class MainModel {
             this.title = title;
         }
 
-        public List<FunctionItem> getList() {
+        public List<FunctionItemWrap> getList() {
             return list;
         }
 
-        public void setList(List<FunctionItem> list) {
+        public void setList(List<FunctionItemWrap> list) {
             this.list = list;
         }
+
+        public class FunctionItemWrap {
+            private FunctionItem functionItem;
+            /** 是否已添加到my */
+            private boolean isAdded;
+
+            public FunctionItemWrap(FunctionItem functionItem) {
+                this.functionItem = functionItem;
+            }
+
+            public String getName() {
+                return functionItem.getName();
+            }
+
+            public void setName(String name) {
+                functionItem.setName(name);
+            }
+
+            @DrawableRes
+            public int getIconResId() {
+                return functionItem.getIconResId();
+            }
+
+            public void setIconResId(@DrawableRes int iconResId) {
+                functionItem.setIconResId(iconResId);
+            }
+
+            public FunctionItem.Action getAction() {
+                return functionItem.getAction();
+            }
+
+            public void setAction(FunctionItem.Action action) {
+                functionItem.setAction(action);
+            }
+
+            public boolean isAdded() {
+                return isAdded;
+            }
+
+            public void setAdded(boolean added) {
+                isAdded = added;
+            }
+        }
+    }
+
+    public enum FunctionBarType {
+        My, Service, Security, Tools
     }
 }
