@@ -9,16 +9,16 @@ import android.support.annotation.DrawableRes;
 class FunctionItem {
     private String name;
     @DrawableRes
-    private int iconId;
+    private int iconResId;
     private Action action;
 
     public FunctionItem() {
 
     }
 
-    public FunctionItem(String name, int iconId, Action action) {
+    public FunctionItem(String name, @DrawableRes int iconId, Action action) {
         this.name = name;
-        this.iconId = iconId;
+        this.iconResId = iconId;
         this.action = action;
     }
 
@@ -30,12 +30,13 @@ class FunctionItem {
         this.name = name;
     }
 
-    public int getIconId() {
-        return iconId;
+    @DrawableRes
+    public int getIconResId() {
+        return iconResId;
     }
 
-    public void setIconId(int iconId) {
-        this.iconId = iconId;
+    public void setIconResId(@DrawableRes int iconResId) {
+        this.iconResId = iconResId;
     }
 
     public Action getAction() {

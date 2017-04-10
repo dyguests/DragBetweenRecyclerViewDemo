@@ -111,7 +111,7 @@ class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHolder> i
         public void bindData(final FunctionItem data) {
             this.data = data;
 
-            //
+            coverImg.setImageResource(data.getIconResId());
             titleTv.setText(data.getName());
         }
     }

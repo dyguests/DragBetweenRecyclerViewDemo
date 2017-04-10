@@ -1,6 +1,7 @@
 package com.fanhl.dragbetweenrecyclerviewdemo;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindDataToContainer() {
-        bindDataToFunctionViewHolder("我的", myServiceContainer);
-        bindDataToFunctionViewHolder("服务", serviceContainer);
-        bindDataToFunctionViewHolder("安全", securityContainer);
-        bindDataToFunctionViewHolder("工具", toolsContainer);
+        bindDataToFunctionViewHolder("我的", R.drawable.ic_function_1, myServiceContainer);
+        bindDataToFunctionViewHolder("服务", R.drawable.ic_function_2, serviceContainer);
+        bindDataToFunctionViewHolder("安全", R.drawable.ic_function_3, securityContainer);
+        bindDataToFunctionViewHolder("工具", R.drawable.ic_function_4, toolsContainer);
     }
 
-    private void bindDataToFunctionViewHolder(String title, FunctionsViewHolder functionsViewHolder) {
-        functionsViewHolder.bindData(title, FunctionDummy.list(title));
+    private void bindDataToFunctionViewHolder(String title, @DrawableRes int iconResId, FunctionsViewHolder functionsViewHolder) {
+        functionsViewHolder.bindData(title, FunctionDummy.list(title, iconResId));
     }
 }
