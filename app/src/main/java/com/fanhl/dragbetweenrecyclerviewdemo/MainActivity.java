@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+//            case android.R.id.home:
+//                finish();
+//                return true;
             case R.id.action_edit:
                 presenter.changeEditMode();
                 return true;
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void setEditMode(boolean editMode) {
         editMenu.setTitle(editMode ? "完成" : "编辑");
+
         myServiceViewHolder.setEditMode(editMode);
         serviceViewHolder.setEditMode(editMode);
         securityViewHolder.setEditMode(editMode);

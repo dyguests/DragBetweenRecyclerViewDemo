@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.data.FunctionItem;
 
 import java.util.List;
@@ -34,6 +35,18 @@ class FunctionsViewHolder {
         functionAdapter = new FunctionAdapter();
         recyclerView.setAdapter(functionAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        functionAdapter.setOnItemClickListener(new ClickableAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
+
+            }
+        });
+        functionAdapter.setOnItemLongClickListener(new ClickableAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(int position, ClickableAdapter.ViewHolder holder) {
+                return true;
+            }
+        });
     }
 
     public void bindData(@NonNull String title, @NonNull List<FunctionItem> functionItems) {
@@ -43,5 +56,11 @@ class FunctionsViewHolder {
 
     public void setEditMode(boolean editMode) {
         functionAdapter.setEditMode(editMode);
+    }
+
+    public interface Callback {
+        void onItemClick(int position, ClickableAdapter.ViewHolder holder);
+
+        void onItemLongClick(int position, ClickableAdapter.ViewHolder holder);
     }
 }
