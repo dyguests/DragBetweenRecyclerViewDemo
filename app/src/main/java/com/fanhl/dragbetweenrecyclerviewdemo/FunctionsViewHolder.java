@@ -21,10 +21,14 @@ class FunctionsViewHolder {
     private final TextView titleTv;
     private final RecyclerView recyclerView;
 
+    private final Callback callback;
+
     private FunctionAdapter functionAdapter;
 
-    public FunctionsViewHolder(@NonNull View view) {
+    public FunctionsViewHolder(@NonNull View view, Callback callback) {
         this.view = view;
+        this.callback = callback;
+
         titleTv = ((TextView) view.findViewById(R.id.titleTv));
         recyclerView = ((RecyclerView) view.findViewById(R.id.recyclerView));
 
@@ -38,12 +42,13 @@ class FunctionsViewHolder {
         functionAdapter.setOnItemClickListener(new ClickableAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
-
+                callback.onItemClick(position, holder);
             }
         });
         functionAdapter.setOnItemLongClickListener(new ClickableAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(int position, ClickableAdapter.ViewHolder holder) {
+                callback.onItemLongClick(position, holder);
                 return true;
             }
         });

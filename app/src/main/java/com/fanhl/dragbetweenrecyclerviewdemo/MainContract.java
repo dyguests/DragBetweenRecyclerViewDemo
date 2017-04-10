@@ -17,5 +17,9 @@ public interface MainContract {
 
     interface Presenter extends BaseContract.Presenter{
         void changeEditMode();
+
+        void onMyItemLongClick();
+
+        void onOtherItemLongClick();
     }
 }

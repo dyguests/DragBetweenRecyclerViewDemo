@@ -54,6 +54,9 @@ public class MainModel {
     }
 
     public void setEditMode(boolean editMode) {
+        if (this.editMode == editMode) {
+            return;
+        }
         this.editMode = editMode;
     }
 

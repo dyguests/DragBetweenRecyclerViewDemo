@@ -25,7 +25,27 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void changeEditMode() {
         boolean newEditMode = !model.isEditMode();
-        model.setEditMode(newEditMode);
-        view.setEditMode(newEditMode);
+        setEditMode(newEditMode);
+    }
+
+    public void setEditMode(boolean editMode) {
+        model.setEditMode(editMode);
+        view.setEditMode(editMode);
+    }
+
+    @Override
+    public void onMyItemLongClick() {
+        if (model.isEditMode()) {
+            // FIXME: 2017/4/10
+        } else {
+            setEditMode(true);
+        }
+    }
+
+    @Override
+    public void onOtherItemLongClick() {
+        if (!model.isEditMode()) {
+            setEditMode(true);
+        }
     }
 }

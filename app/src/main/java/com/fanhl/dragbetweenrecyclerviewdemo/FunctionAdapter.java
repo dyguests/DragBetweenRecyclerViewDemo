@@ -34,6 +34,7 @@ class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> imple
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         holder.bindData(list.get(position));
     }
 

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 import com.fanhl.dragbetweenrecyclerviewdemo.presenter.MainPresenter;
 
@@ -37,9 +38,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case android.R.id.home:
-//                finish();
-//                return true;
             case R.id.action_edit:
                 presenter.changeEditMode();
                 return true;
@@ -49,10 +47,50 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void assignViews() {
-        this.myServiceViewHolder = new FunctionsViewHolder(findViewById(R.id.myServiceContainer));
-        this.serviceViewHolder = new FunctionsViewHolder(findViewById(R.id.serviceContainer));
-        this.securityViewHolder = new FunctionsViewHolder(findViewById(R.id.securityContainer));
-        this.toolsViewHolder = new FunctionsViewHolder(findViewById(R.id.toolsContainer));
+        this.myServiceViewHolder = new FunctionsViewHolder(findViewById(R.id.myServiceContainer), new FunctionsViewHolder.Callback() {
+            @Override
+            public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
+
+            }
+
+            @Override
+            public void onItemLongClick(int position, ClickableAdapter.ViewHolder holder) {
+//                if (!presenter.isEditMode()) {
+//                    presenter.setEditMode(true);
+//                }
+                presenter.onMyItemLongClick();
+            }
+        });
+        this.serviceViewHolder = new FunctionsViewHolder(findViewById(R.id.serviceContainer), new FunctionsViewHolder.Callback() {
+            @Override
+            public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
+            }
+
+            @Override
+            public void onItemLongClick(int position, ClickableAdapter.ViewHolder holder) {
+                presenter.onOtherItemLongClick();
+            }
+        });
+        this.securityViewHolder = new FunctionsViewHolder(findViewById(R.id.securityContainer), new FunctionsViewHolder.Callback() {
+            @Override
+            public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
+            }
+
+            @Override
+            public void onItemLongClick(int position, ClickableAdapter.ViewHolder holder) {
+                presenter.onOtherItemLongClick();
+            }
+        });
+        this.toolsViewHolder = new FunctionsViewHolder(findViewById(R.id.toolsContainer), new FunctionsViewHolder.Callback() {
+            @Override
+            public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
+            }
+
+            @Override
+            public void onItemLongClick(int position, ClickableAdapter.ViewHolder holder) {
+                presenter.onOtherItemLongClick();
+            }
+        });
     }
 
     private void initData() {
@@ -77,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         serviceViewHolder.setEditMode(editMode);
         securityViewHolder.setEditMode(editMode);
         toolsViewHolder.setEditMode(editMode);
+
+        //// FIXME: 2017/4/10 editMode=false then save
+
     }
 
     private void bindFunctionDataToFunctionViewHolder(MainModel.FunctionBarData functionBarData, FunctionsViewHolder functionsViewHolder) {
