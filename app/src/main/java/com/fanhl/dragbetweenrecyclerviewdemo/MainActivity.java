@@ -64,9 +64,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void bindData(MainModel model) {
         bindFunctionDataToFunctionViewHolder(model.getMyFunctionBar(), myServiceViewHolder);
-        bindFunctionDataToFunctionViewHolder(model.getMyFunctionBar(), serviceViewHolder);
-        bindFunctionDataToFunctionViewHolder(model.getMyFunctionBar(), securityViewHolder);
-        bindFunctionDataToFunctionViewHolder(model.getMyFunctionBar(), toolsViewHolder);
+        bindFunctionDataToFunctionViewHolder(model.getServiceFunctionBar(), serviceViewHolder);
+        bindFunctionDataToFunctionViewHolder(model.getSecurityFunctionBar(), securityViewHolder);
+        bindFunctionDataToFunctionViewHolder(model.getToolsFunctionBar(), toolsViewHolder);
     }
 
     @Override
