@@ -5,14 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fanhl.dragbetweenrecyclerviewdemo.viewHolder.MyFunctionsViewHolder;
 import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 import com.fanhl.dragbetweenrecyclerviewdemo.presenter.MainPresenter;
 import com.fanhl.dragbetweenrecyclerviewdemo.viewHolder.FunctionsViewHolder;
+import com.fanhl.dragbetweenrecyclerviewdemo.viewHolder.MyFunctionsViewHolder;
 import com.fanhl.dragbetweenrecyclerviewdemo.viewHolder.OtherFunctionsViewHolder;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     private MenuItem editMenu;
 
@@ -53,7 +54,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         this.myServiceViewHolder = new MyFunctionsViewHolder(findViewById(R.id.myServiceContainer), new FunctionsViewHolder.Callback() {
             @Override
             public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
-                presenter.clickFunctionItem(MainModel.FunctionBarType.My, position, holder);
+                //当 itemView在移除状态中（未移除完的话，比如动画效果未完）继续点击的话，item position 会变成 -1
+                if (position >= 0) {
+                    presenter.clickFunctionItem(MainModel.FunctionBarType.My, position, holder);
+                }
             }
 
             @Override

@@ -70,14 +70,14 @@ public abstract class ClickableAdapter<CVH extends ClickableAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 if (itemClickListener != null) {
-                    itemClickListener.onItemClick(position, holder);
+                    itemClickListener.onItemClick(holder.getAdapterPosition(), holder);
                 }
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                return itemLongClickListener != null && itemLongClickListener.onItemLongClick(position, holder);
+                return itemLongClickListener != null && itemLongClickListener.onItemLongClick(holder.getAdapterPosition(), holder);
             }
         });
     }
