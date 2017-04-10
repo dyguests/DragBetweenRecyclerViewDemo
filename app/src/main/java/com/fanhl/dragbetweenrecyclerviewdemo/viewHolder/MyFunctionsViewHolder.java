@@ -1,10 +1,12 @@
 package com.fanhl.dragbetweenrecyclerviewdemo.viewHolder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.fanhl.dragbetweenrecyclerviewdemo.adapter.MyFunctionAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
+import com.fanhl.dragbetweenrecyclerviewdemo.helper.SimpleItemTouchHelperCallback;
 import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 
 import java.util.List;
@@ -38,6 +40,9 @@ public class MyFunctionsViewHolder extends FunctionsViewHolder {
             }
         });
         recyclerView.setAdapter(functionAdapter);
+
+        new ItemTouchHelper(new SimpleItemTouchHelperCallback(functionAdapter))
+                .attachToRecyclerView(recyclerView);
     }
 
     @Override
