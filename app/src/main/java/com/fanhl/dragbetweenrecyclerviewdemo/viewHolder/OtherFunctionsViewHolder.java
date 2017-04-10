@@ -41,17 +41,27 @@ public class OtherFunctionsViewHolder extends FunctionsViewHolder {
     }
 
     @Override
-    public void bindData(@NonNull String title, @NonNull List<MainModel.FunctionBarData.FunctionItemWrap> functionItems) {
+    public void bindData(@NonNull String title, @NonNull List<MainModel.FunctionItemWrap> functionItems) {
         super.bindData(title, functionItems);
         functionAdapter.replaceItems(functionItems);
     }
 
-    public void setFunctionItemStatusAdded(int position) {
-        functionAdapter.setFunctionItemStatusAdded(position);
+    public MainModel.FunctionItemWrap setFunctionItemStatusAdded(int position, boolean added) {
+        functionAdapter.setFunctionItemStatusAdded(position, added);
+        return functionAdapter.getList().get(position);
+    }
+
+    public void setFunctionItemStatusAdded(MainModel.FunctionItemWrap functionItemWrap, boolean added) {
+        functionAdapter.setFunctionItemStatusAdded2(functionItemWrap, added);
     }
 
     @Override
     public void setEditMode(boolean editMode) {
         functionAdapter.setEditMode(editMode);
+    }
+
+    @Override
+    public MainModel.FunctionItemWrap getFunctionBarItem(int position) {
+        return functionAdapter.getList().get(position);
     }
 }

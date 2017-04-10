@@ -1,8 +1,6 @@
 package com.fanhl.dragbetweenrecyclerviewdemo.adapter;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,23 +16,23 @@ import java.util.List;
  * Created by fanhl on 2017/4/7.
  */
 
-public abstract class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> implements Listable<MainModel.FunctionBarData.FunctionItemWrap> {
-    protected final List<MainModel.FunctionBarData.FunctionItemWrap> list;
+public abstract class FunctionAdapter<VH extends FunctionAdapter.ViewHolder> extends ClickableAdapter<VH> implements Listable<MainModel.FunctionItemWrap> {
+    protected final List<MainModel.FunctionItemWrap> list;
     /** 默认是非编辑模式 */
-    private boolean editMode = false;
+    protected boolean editMode = false;
 
     public FunctionAdapter() {
         this.list = new ArrayList<>();
     }
 
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_funtion, parent, false));
-    }
+//    @Override
+//    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+//        return new VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_funtion, parent, false));
+//    }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(VH holder, int position) {
         super.onBindViewHolder(holder, position);
         holder.bindData(list.get(position));
     }
@@ -45,14 +43,14 @@ public abstract class FunctionAdapter extends ClickableAdapter<FunctionAdapter.V
     }
 
     @Override
-    public void addItem(MainModel.FunctionBarData.FunctionItemWrap item) {
+    public void addItem(MainModel.FunctionItemWrap item) {
         int position = list.size();
         list.add(item);
         notifyItemInserted(position);
     }
 
     @Override
-    public void addItems(List<MainModel.FunctionBarData.FunctionItemWrap> items) {
+    public void addItems(List<MainModel.FunctionItemWrap> items) {
         int positionStart = list.size();
         list.addAll(items);
         notifyItemRangeInserted(positionStart, items.size());
@@ -66,7 +64,7 @@ public abstract class FunctionAdapter extends ClickableAdapter<FunctionAdapter.V
     }
 
     @Override
-    public void replaceItems(List<MainModel.FunctionBarData.FunctionItemWrap> items) {
+    public void replaceItems(List<MainModel.FunctionItemWrap> items) {
         int oldSize = list.size();
         list.clear();
         list.addAll(items);
@@ -84,12 +82,12 @@ public abstract class FunctionAdapter extends ClickableAdapter<FunctionAdapter.V
     }
 
     @Override
-    public void addFirstItem(MainModel.FunctionBarData.FunctionItemWrap item) {
+    public void addFirstItem(MainModel.FunctionItemWrap item) {
         throw new RuntimeException("没空实现 先不写");
     }
 
     @Override
-    public void addFirstItems(List<MainModel.FunctionBarData.FunctionItemWrap> items) {
+    public void addFirstItems(List<MainModel.FunctionItemWrap> items) {
         throw new RuntimeException("没空实现 先不写");
     }
 
@@ -101,13 +99,17 @@ public abstract class FunctionAdapter extends ClickableAdapter<FunctionAdapter.V
         notifyDataSetChanged();
     }
 
+    public List<MainModel.FunctionItemWrap> getList() {
+        return list;
+    }
+
     public class ViewHolder extends ClickableAdapter.ViewHolder {
 
         private final ImageView coverImg;
         private final TextView titleTv;
-        private final ImageView editHintImg;
+        protected final ImageView editHintImg;
 
-        private MainModel.FunctionBarData.FunctionItemWrap data;
+        private MainModel.FunctionItemWrap data;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -125,20 +127,13 @@ public abstract class FunctionAdapter extends ClickableAdapter<FunctionAdapter.V
             });
         }
 
-        public void bindData(final MainModel.FunctionBarData.FunctionItemWrap data) {
+        public void bindData(final MainModel.FunctionItemWrap data) {
             this.data = data;
 
             coverImg.setImageResource(data.getIconResId());
             titleTv.setText(data.getName());
 
             editHintImg.setVisibility(editMode ? View.VISIBLE : View.GONE);
-            if (editMode) {
-                if (data.isAdded()) {
-                    editHintImg.setImageResource(android.R.drawable.star_big_off);
-                } else {
-                    editHintImg.setImageResource(android.R.drawable.ic_input_add);
-                }
-            }
         }
     }
 }

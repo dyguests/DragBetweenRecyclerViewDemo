@@ -47,12 +47,14 @@ public class MainPresenter implements MainContract.Presenter {
             return;
         }
 
-        MainModel.FunctionBarData.FunctionItemWrap functionBarItem = model.getFunctionBarItem(functionBarType, position);
+        MainModel.FunctionItemWrap functionBarItem = view.getFunctionBarItem(functionBarType, position);
 
         if (functionBarType != MainModel.FunctionBarType.My) {
             if (!functionBarItem.isAdded()) {
-                view.addFunctionItemToMy(functionBarType,position);
+                view.addFunctionItemToMy(functionBarType, position);
             }
+        } else {
+            view.removeFunctionItemFromMy(position);
         }
     }
 

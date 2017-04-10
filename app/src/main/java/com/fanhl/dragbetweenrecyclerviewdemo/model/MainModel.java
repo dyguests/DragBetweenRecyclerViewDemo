@@ -40,15 +40,15 @@ public class MainModel {
     }
 
     public MainModel() {
-        myFunctionBar = createFunctionBar("我的", R.drawable.ic_function_1);
-        serviceFunctionBar = createFunctionBar("服务", R.drawable.ic_function_2);
-        securityFunctionBar = createFunctionBar("安全", R.drawable.ic_function_3);
-        toolsFunctionBar = createFunctionBar("工具", R.drawable.ic_function_4);
+        myFunctionBar = createFunctionBar("我的", FunctionBarType.My, R.drawable.ic_function_1);
+        serviceFunctionBar = createFunctionBar("服务", FunctionBarType.Service, R.drawable.ic_function_2);
+        securityFunctionBar = createFunctionBar("安全", FunctionBarType.Security, R.drawable.ic_function_3);
+        toolsFunctionBar = createFunctionBar("工具", FunctionBarType.Tools, R.drawable.ic_function_4);
     }
 
     @NonNull
-    private FunctionBarData createFunctionBar(String title, @DrawableRes int iconResId) {
-        return new FunctionBarData(title, FunctionDummy.list(title, iconResId));
+    private FunctionBarData createFunctionBar(String title, FunctionBarType functionBarType, @DrawableRes int iconResId) {
+        return new FunctionBarData(title, functionBarType, FunctionDummy.list(title, iconResId));
     }
 
     public boolean isEditMode() {
@@ -62,7 +62,7 @@ public class MainModel {
         this.editMode = editMode;
     }
 
-    public FunctionBarData.FunctionItemWrap getFunctionBarItem(FunctionBarType functionBarType, int position) {
+    public FunctionItemWrap getFunctionBarItem(FunctionBarType functionBarType, int position) {
         switch (functionBarType) {
             case My:
                 return myFunctionBar.getList().get(position);
@@ -85,12 +85,12 @@ public class MainModel {
             list = new ArrayList<>();
         }
 
-        public FunctionBarData(String title, @NonNull List<FunctionItem> list) {
+        public FunctionBarData(String title, final FunctionBarType functionBarType, @NonNull List<FunctionItem> list) {
             this.title = title;
             this.list = CollectionUtil.parseList(list, new CollectionUtil.ParseListParser<FunctionItem, FunctionItemWrap>() {
                 @Override
                 public FunctionItemWrap parse(FunctionItem functionItem) {
-                    return new FunctionItemWrap(functionItem);
+                    return new FunctionItemWrap(functionBarType, functionItem);
                 }
             });
         }
@@ -111,47 +111,59 @@ public class MainModel {
             this.list = list;
         }
 
-        public class FunctionItemWrap {
-            private FunctionItem functionItem;
-            /** 是否已添加到my */
-            private boolean isAdded;
+    }
 
-            public FunctionItemWrap(FunctionItem functionItem) {
-                this.functionItem = functionItem;
-            }
+    public class FunctionItemWrap {
+        /** 来源(服务、安全、工具) */
+        private FunctionBarType functionBarType;
+        private FunctionItem functionItem;
+        /** 是否已添加到my */
+        private boolean isAdded;
 
-            public String getName() {
-                return functionItem.getName();
-            }
+        public FunctionItemWrap(FunctionBarType functionBarType, FunctionItem functionItem) {
+            this.functionBarType = functionBarType;
+            this.functionItem = functionItem;
+        }
 
-            public void setName(String name) {
-                functionItem.setName(name);
-            }
+        public String getName() {
+            return functionItem.getName();
+        }
 
-            @DrawableRes
-            public int getIconResId() {
-                return functionItem.getIconResId();
-            }
+        public void setName(String name) {
+            functionItem.setName(name);
+        }
 
-            public void setIconResId(@DrawableRes int iconResId) {
-                functionItem.setIconResId(iconResId);
-            }
+        @DrawableRes
+        public int getIconResId() {
+            return functionItem.getIconResId();
+        }
 
-            public FunctionItem.Action getAction() {
-                return functionItem.getAction();
-            }
+        public void setIconResId(@DrawableRes int iconResId) {
+            functionItem.setIconResId(iconResId);
+        }
 
-            public void setAction(FunctionItem.Action action) {
-                functionItem.setAction(action);
-            }
+        public FunctionItem.Action getAction() {
+            return functionItem.getAction();
+        }
 
-            public boolean isAdded() {
-                return isAdded;
-            }
+        public void setAction(FunctionItem.Action action) {
+            functionItem.setAction(action);
+        }
 
-            public void setAdded(boolean added) {
-                isAdded = added;
-            }
+        public FunctionBarType getFunctionBarType() {
+            return functionBarType;
+        }
+
+        public void setFunctionBarType(FunctionBarType functionBarType) {
+            this.functionBarType = functionBarType;
+        }
+
+        public boolean isAdded() {
+            return isAdded;
+        }
+
+        public void setAdded(boolean added) {
+            isAdded = added;
         }
     }
 

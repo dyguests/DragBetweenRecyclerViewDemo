@@ -16,6 +16,10 @@ public interface MainContract {
         void setEditMode(boolean editMode);
 
         void addFunctionItemToMy(MainModel.FunctionBarType functionBarType, int position);
+
+        void removeFunctionItemFromMy(int position);
+
+        MainModel.FunctionItemWrap getFunctionBarItem(MainModel.FunctionBarType functionBarType, int position);
     }
 
     interface Presenter extends BaseContract.Presenter {

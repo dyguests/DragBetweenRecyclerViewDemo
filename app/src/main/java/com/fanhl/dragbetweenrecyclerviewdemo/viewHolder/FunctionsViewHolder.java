@@ -37,12 +37,14 @@ public abstract class FunctionsViewHolder {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    public void bindData(@NonNull String title, @NonNull List<MainModel.FunctionBarData.FunctionItemWrap> functionItems) {
+    public void bindData(@NonNull String title, @NonNull List<MainModel.FunctionItemWrap> functionItems) {
         titleTv.setText(title);
         //functionAdapter.replaceItems(functionItems);
     }
 
     public abstract void setEditMode(boolean editMode);
+
+    public abstract MainModel.FunctionItemWrap getFunctionBarItem(int position);
 
     public interface Callback {
         void onItemClick(int position, ClickableAdapter.ViewHolder holder);

@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fanhl.dragbetweenrecyclerviewdemo.adapter.MyFunctionsViewHolder;
+import com.fanhl.dragbetweenrecyclerviewdemo.viewHolder.MyFunctionsViewHolder;
 import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
 import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 import com.fanhl.dragbetweenrecyclerviewdemo.presenter.MainPresenter;
@@ -53,14 +53,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         this.myServiceViewHolder = new MyFunctionsViewHolder(findViewById(R.id.myServiceContainer), new FunctionsViewHolder.Callback() {
             @Override
             public void onItemClick(int position, ClickableAdapter.ViewHolder holder) {
-
+                presenter.clickFunctionItem(MainModel.FunctionBarType.My, position, holder);
             }
 
             @Override
             public void onItemLongClick(int position, ClickableAdapter.ViewHolder holder) {
-//                if (!presenter.isEditMode()) {
-//                    presenter.setEditMode(true);
-//                }
                 presenter.onMyItemLongClick();
             }
         });
@@ -128,10 +125,52 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void addFunctionItemToMy(MainModel.FunctionBarType functionBarType, int position) {
+        MainModel.FunctionItemWrap functionItemWrap = null;
         switch (functionBarType) {
             case Service:
-                serviceViewHolder.setFunctionItemStatusAdded(position);
+                functionItemWrap = serviceViewHolder.setFunctionItemStatusAdded(position, true);
+                break;
+            case Security:
+                functionItemWrap = securityViewHolder.setFunctionItemStatusAdded(position, true);
+                break;
+            case Tools:
+                functionItemWrap = toolsViewHolder.setFunctionItemStatusAdded(position, true);
+                break;
+
         }
+        assert functionItemWrap != null;
+        myServiceViewHolder.addFunctionItem(functionItemWrap);
+    }
+
+    @Override
+    public void removeFunctionItemFromMy(int position) {
+        MainModel.FunctionItemWrap functionItemWrap = myServiceViewHolder.removeFunctionItem(position);
+        switch (functionItemWrap.getFunctionBarType()) {
+            case Service:
+                serviceViewHolder.setFunctionItemStatusAdded(functionItemWrap, false);
+                break;
+            case Security:
+                securityViewHolder.setFunctionItemStatusAdded(position, false);
+                break;
+            case Tools:
+                toolsViewHolder.setFunctionItemStatusAdded(position, false);
+                break;
+        }
+    }
+
+    @Override
+    public MainModel.FunctionItemWrap getFunctionBarItem(MainModel.FunctionBarType functionBarType, int position) {
+        switch (functionBarType) {
+            case My:
+                return myServiceViewHolder.getFunctionBarItem(position);
+            case Service:
+                return serviceViewHolder.getFunctionBarItem(position);
+            case Security:
+                return securityViewHolder.getFunctionBarItem(position);
+            case Tools:
+                return toolsViewHolder.getFunctionBarItem(position);
+        }
+        return null;
     }
 
     private void bindFunctionDataToFunctionViewHolder(MainModel.FunctionBarData functionBarData, FunctionsViewHolder functionsViewHolder) {
