@@ -1,5 +1,6 @@
 package com.fanhl.dragbetweenrecyclerviewdemo;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.common.BaseContract;
 import com.fanhl.dragbetweenrecyclerviewdemo.model.MainModel;
 
 /**

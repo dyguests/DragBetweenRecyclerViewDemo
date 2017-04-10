@@ -1,4 +1,4 @@
-package com.fanhl.dragbetweenrecyclerviewdemo;
+package com.fanhl.dragbetweenrecyclerviewdemo.common;
 
 /**
  * Created by fanhl on 2017/4/10.

@@ -1,12 +1,13 @@
 package com.fanhl.dragbetweenrecyclerviewdemo;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fanhl.dragbetweenrecyclerviewdemo.common.ClickableAdapter;
+import com.fanhl.dragbetweenrecyclerviewdemo.common.Listable;
 import com.fanhl.dragbetweenrecyclerviewdemo.data.FunctionItem;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by fanhl on 2017/4/7.
  */
 
-class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHolder> implements Listable<FunctionItem> {
+class FunctionAdapter extends ClickableAdapter<FunctionAdapter.ViewHolder> implements Listable<FunctionItem> {
     private final List<FunctionItem> list;
     /** 默认是非编辑模式 */
     private boolean editMode = false;
@@ -98,7 +99,7 @@ class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHolder> i
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends ClickableAdapter.ViewHolder {
 
         private final ImageView coverImg;
         private final TextView titleTv;

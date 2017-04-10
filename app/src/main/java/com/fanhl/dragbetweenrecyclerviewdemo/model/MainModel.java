@@ -3,7 +3,7 @@ package com.fanhl.dragbetweenrecyclerviewdemo.model;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
-import com.fanhl.dragbetweenrecyclerviewdemo.FunctionDummy;
+import com.fanhl.dragbetweenrecyclerviewdemo.dummy.FunctionDummy;
 import com.fanhl.dragbetweenrecyclerviewdemo.R;
 import com.fanhl.dragbetweenrecyclerviewdemo.data.FunctionItem;
 

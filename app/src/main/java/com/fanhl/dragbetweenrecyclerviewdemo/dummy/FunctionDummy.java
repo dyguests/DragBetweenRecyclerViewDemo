@@ -1,4 +1,4 @@
-package com.fanhl.dragbetweenrecyclerviewdemo;
+package com.fanhl.dragbetweenrecyclerviewdemo.dummy;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;

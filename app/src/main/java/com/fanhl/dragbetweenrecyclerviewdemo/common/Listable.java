@@ -1,4 +1,4 @@
-package com.fanhl.dragbetweenrecyclerviewdemo;
+package com.fanhl.dragbetweenrecyclerviewdemo.common;
 
 import java.util.List;
 
